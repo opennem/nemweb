@@ -66,7 +66,7 @@ class NemwebCurrentFile:
     def download(self, link):
         """Dowloads nemweb zipfile from link into memory as a byteIO object.
         nemfile object is returned from the byteIO object """
-        response = requests.get(self.base_url.format(link))
+        response = requests.get("{0}{1}".format(self.base_url,link))
         zip_bytes = BytesIO(response.content)
         nemfile = nemfile_reader.load_nemfile(zip_bytes)
         return nemfile
