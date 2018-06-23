@@ -1,6 +1,7 @@
+"""Initialises nemweb package, loads config"""
 import configparser
 import os
 
-module_dir = os.path.dirname(__file__)
-config = configparser.RawConfigParser()
-config.read(os.path.join(module_dir,'config.ini'))
+MODULE_DIR = os.path.dirname(__file__)
+CONFIG = configparser.RawConfigParser()
+CONFIG.read(os.path.join(MODULE_DIR, 'config.ini'))
