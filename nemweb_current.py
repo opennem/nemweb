@@ -68,7 +68,7 @@ class NemwebCurrentFile:
         nemfile object is returned from the byteIO object """
         response = requests.get("{0}{1}".format(self.base_url, link))
         zip_bytes = BytesIO(response.content)
-        nemfile = nemfile_reader.load_nemfile(zip_bytes)
+        nemfile = nemfile_reader.nemzip_reader(zip_bytes)
         return nemfile
 
 class DispatchSCADA(NemwebCurrentFile):
