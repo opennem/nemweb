@@ -60,7 +60,7 @@ class NemwebCurrentFile:
     def insert_tables(self, nemfile):
         """Inserts dataframe into relevant table"""
         for table in self.tables:
-            dataframe = nemfile.__dict__[table].drop_duplicates().copy()
+            dataframe = nemfile[table].drop_duplicates().copy()
             nemweb_sqlite.insert(dataframe, table)
 
     def download(self, link):
