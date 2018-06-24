@@ -1,2 +1,5 @@
 __pycache__/
-config.ini
+build/
+dist/
+nemweb.egg-info/
+
