@@ -81,9 +81,9 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">nemweb package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#modules">modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-nemweb.nemfile_reader">nemfile_reader</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-nemweb.nemweb_current">nemweb_current</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-nemweb.nemweb_sqlite">nemweb_sqlite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-nemfile_reader">nemfile_reader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-nemweb_current">nemweb_current</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-nemweb_sqlite">nemweb_sqlite</a></li>
 </ul>
 </li>
 </ul>
@@ -155,17 +155,17 @@
 <div class="section" id="modules">
 <h2>modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-nemweb.nemfile_reader">
-<span id="nemfile-reader"></span><h2>nemfile_reader<a class="headerlink" href="#module-nemweb.nemfile_reader" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-nemfile_reader">
+<span id="nemfile-reader"></span><h2>nemfile_reader<a class="headerlink" href="#module-nemfile_reader" title="Permalink to this headline">¶</a></h2>
 <p>Module for reading nemfiles and zipped nemfiles into pandas dataframes</p>
 <dl class="class">
-<dt id="nemweb.nemfile_reader.ZipFileStreamer">
-<em class="property">class </em><code class="descclassname">nemweb.nemfile_reader.</code><code class="descname">ZipFileStreamer</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb.nemfile_reader.ZipFileStreamer" title="Permalink to this definition">¶</a></dt>
+<dt id="nemfile_reader.ZipFileStreamer">
+<em class="property">class </em><code class="descclassname">nemfile_reader.</code><code class="descname">ZipFileStreamer</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#nemfile_reader.ZipFileStreamer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">zipfile.ZipFile</span></code></p>
 <p>ZipFile subclass, with method to extract ZipFile as byte stream to memory</p>
 <dl class="method">
-<dt id="nemweb.nemfile_reader.ZipFileStreamer.extract_stream">
-<code class="descname">extract_stream</code><span class="sig-paren">(</span><em>member</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb.nemfile_reader.ZipFileStreamer.extract_stream" title="Permalink to this definition">¶</a></dt>
+<dt id="nemfile_reader.ZipFileStreamer.extract_stream">
+<code class="descname">extract_stream</code><span class="sig-paren">(</span><em>member</em><span class="sig-paren">)</span><a class="headerlink" href="#nemfile_reader.ZipFileStreamer.extract_stream" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract a member from the archive as a byte stream or string steam, using
 its full name. ‘member’ may be a filename or a ZipInfo object.</p>
 </dd></dl>
@@ -173,16 +173,16 @@ its full name. ‘member’ may be a filename or a ZipInfo object.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="nemweb.nemfile_reader.nemfile_reader">
-<code class="descclassname">nemweb.nemfile_reader.</code><code class="descname">nemfile_reader</code><span class="sig-paren">(</span><em>nemfile_object</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb.nemfile_reader.nemfile_reader" title="Permalink to this definition">¶</a></dt>
+<dt id="nemfile_reader.nemfile_reader">
+<code class="descclassname">nemfile_reader.</code><code class="descname">nemfile_reader</code><span class="sig-paren">(</span><em>nemfile_object</em><span class="sig-paren">)</span><a class="headerlink" href="#nemfile_reader.nemfile_reader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a dict containing a pandas dataframe each table in a nemfile.
 The fileobject needs to be unzipped csv (nemfile), and can be either a file or an
 an in stream fileobject.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="nemweb.nemfile_reader.nemzip_reader">
-<code class="descclassname">nemweb.nemfile_reader.</code><code class="descname">nemzip_reader</code><span class="sig-paren">(</span><em>nemzip_object</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb.nemfile_reader.nemzip_reader" title="Permalink to this definition">¶</a></dt>
+<dt id="nemfile_reader.nemzip_reader">
+<code class="descclassname">nemfile_reader.</code><code class="descname">nemzip_reader</code><span class="sig-paren">(</span><em>nemzip_object</em><span class="sig-paren">)</span><a class="headerlink" href="#nemfile_reader.nemzip_reader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a dict containing a pandas dataframe each table in a zipped nemfile.
 The fileobject is needs to be a zipped csv (nemzip), and can be either a file or an
 in stream fileobject.
@@ -191,15 +191,15 @@ and passes nemfile_object to nemfile reader.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="nemweb.nemfile_reader.zip_streams">
-<code class="descclassname">nemweb.nemfile_reader.</code><code class="descname">zip_streams</code><span class="sig-paren">(</span><em>fileobject</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb.nemfile_reader.zip_streams" title="Permalink to this definition">¶</a></dt>
+<dt id="nemfile_reader.zip_streams">
+<code class="descclassname">nemfile_reader.</code><code class="descname">zip_streams</code><span class="sig-paren">(</span><em>fileobject</em><span class="sig-paren">)</span><a class="headerlink" href="#nemfile_reader.zip_streams" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generator that yields each memeber of a zipfile as a BytesIO stream.
 Can take a filename or file-like object (BytesIO object) as an argument.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-nemweb.nemweb_current">
-<span id="nemweb-current"></span><h2>nemweb_current<a class="headerlink" href="#module-nemweb.nemweb_current" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-nemweb_current">
+<span id="nemweb-current"></span><h2>nemweb_current<a class="headerlink" href="#module-nemweb_current" title="Permalink to this headline">¶</a></h2>
 <p>Module for downloading data different ‘CURRENT’ nemweb dataset
 (selected data sets from files from <a class="reference external" href="http://www.nemweb.com.au/Reports/CURRENT">http://www.nemweb.com.au/Reports/CURRENT</a>)</p>
 <p>Module includes one main superclass for handling generic nemweb current files. A series of
@@ -214,14 +214,14 @@ Datasets included from ‘CURRENT’ index page:</p>
 <li>ROOFTOP_PV/ACTUAL</li>
 </ul>
 <dl class="attribute">
-<dt id="nemweb.nemweb_current.CurrentDataset">
-<code class="descclassname">nemweb.nemweb_current.</code><code class="descname">CurrentDataset</code><a class="headerlink" href="#nemweb.nemweb_current.CurrentDataset" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">nemweb.nemweb_current.NemwebCurrentFile</span></code></p>
+<dt id="nemweb_current.CurrentDataset">
+<code class="descclassname">nemweb_current.</code><code class="descname">CurrentDataset</code><a class="headerlink" href="#nemweb_current.CurrentDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">nemweb_current.NemwebCurrentFile</span></code></p>
 </dd></dl>
 
 <dl class="class">
-<dt id="nemweb.nemweb_current.CurrentFileHandler">
-<em class="property">class </em><code class="descclassname">nemweb.nemweb_current.</code><code class="descname">CurrentFileHandler</code><a class="headerlink" href="#nemweb.nemweb_current.CurrentFileHandler" title="Permalink to this definition">¶</a></dt>
+<dt id="nemweb_current.CurrentFileHandler">
+<em class="property">class </em><code class="descclassname">nemweb_current.</code><code class="descname">CurrentFileHandler</code><a class="headerlink" href="#nemweb_current.CurrentFileHandler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>class for handling ‘CURRENT’ nemweb files from <a class="reference external" href="http://www.nemweb.com.au">http://www.nemweb.com.au</a>
 Requires a ‘CurrentDataset’ namedtuple with following fields:</p>
@@ -240,15 +240,15 @@ is “DISPATCH” and the 3rd is “SCADA_VALUE” and the name is “DISPATCH_U
 <p>Several datasets contain multiple tables. Examples can be found in the DATASETS dict 
 (nemweb_reader.DATASETS)</p>
 <dl class="method">
-<dt id="nemweb.nemweb_current.CurrentFileHandler.download">
-<code class="descname">download</code><span class="sig-paren">(</span><em>link</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb.nemweb_current.CurrentFileHandler.download" title="Permalink to this definition">¶</a></dt>
+<dt id="nemweb_current.CurrentFileHandler.download">
+<code class="descname">download</code><span class="sig-paren">(</span><em>link</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb_current.CurrentFileHandler.download" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dowloads nemweb zipfile from link into memory as a byteIO object.
 nemfile object is returned from the byteIO object</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="nemweb.nemweb_current.CurrentFileHandler.update_data">
-<code class="descname">update_data</code><span class="sig-paren">(</span><em>dataset</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb.nemweb_current.CurrentFileHandler.update_data" title="Permalink to this definition">¶</a></dt>
+<dt id="nemweb_current.CurrentFileHandler.update_data">
+<code class="descname">update_data</code><span class="sig-paren">(</span><em>dataset</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb_current.CurrentFileHandler.update_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main method to process nemweb dataset
 - downloads the index page for the dataset
 - determines date to start downloading from
@@ -259,32 +259,32 @@ nemfile object is returned from the byteIO object</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="nemweb.nemweb_current.update_datasets">
-<code class="descclassname">nemweb.nemweb_current.</code><code class="descname">update_datasets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nemweb.nemweb_current.update_datasets" title="Permalink to this definition">¶</a></dt>
+<dt id="nemweb_current.update_datasets">
+<code class="descclassname">nemweb_current.</code><code class="descname">update_datasets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nemweb_current.update_datasets" title="Permalink to this definition">¶</a></dt>
 <dd><p>function that updates a subset of datasets in contained in DATASETS</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-nemweb.nemweb_sqlite">
-<span id="nemweb-sqlite"></span><h2>nemweb_sqlite<a class="headerlink" href="#module-nemweb.nemweb_sqlite" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-nemweb_sqlite">
+<span id="nemweb-sqlite"></span><h2>nemweb_sqlite<a class="headerlink" href="#module-nemweb_sqlite" title="Permalink to this headline">¶</a></h2>
 <p>Module for interfacing with sqlite3 database</p>
 <dl class="function">
-<dt id="nemweb.nemweb_sqlite.insert">
-<code class="descclassname">nemweb.nemweb_sqlite.</code><code class="descname">insert</code><span class="sig-paren">(</span><em>dataframe</em>, <em>table_name</em>, <em>db_name='nemweb_live.db'</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb.nemweb_sqlite.insert" title="Permalink to this definition">¶</a></dt>
+<dt id="nemweb_sqlite.insert">
+<code class="descclassname">nemweb_sqlite.</code><code class="descname">insert</code><span class="sig-paren">(</span><em>dataframe</em>, <em>table_name</em>, <em>db_name='nemweb_live.db'</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb_sqlite.insert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Inserts dataframe into a table (table name) in an sqlite3 database (db_name).
 Database directory needs to be specfied in config.ini file</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="nemweb.nemweb_sqlite.start_from">
-<code class="descclassname">nemweb.nemweb_sqlite.</code><code class="descname">start_from</code><span class="sig-paren">(</span><em>table_name</em>, <em>db_name='nemweb_live.db'</em>, <em>timestamp_col='SETTLEMENTDATE'</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb.nemweb_sqlite.start_from" title="Permalink to this definition">¶</a></dt>
+<dt id="nemweb_sqlite.start_from">
+<code class="descclassname">nemweb_sqlite.</code><code class="descname">start_from</code><span class="sig-paren">(</span><em>table_name</em>, <em>db_name='nemweb_live.db'</em>, <em>timestamp_col='SETTLEMENTDATE'</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb_sqlite.start_from" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a date to start downloading data from.
 Tries determining latest date from table in database. On fail prompts user to input date.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="nemweb.nemweb_sqlite.table_latest_record">
-<code class="descclassname">nemweb.nemweb_sqlite.</code><code class="descname">table_latest_record</code><span class="sig-paren">(</span><em>table_name</em>, <em>db_name='nemweb_live.db'</em>, <em>timestamp_col='SETTLEMENTDATE'</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb.nemweb_sqlite.table_latest_record" title="Permalink to this definition">¶</a></dt>
+<dt id="nemweb_sqlite.table_latest_record">
+<code class="descclassname">nemweb_sqlite.</code><code class="descname">table_latest_record</code><span class="sig-paren">(</span><em>table_name</em>, <em>db_name='nemweb_live.db'</em>, <em>timestamp_col='SETTLEMENTDATE'</em><span class="sig-paren">)</span><a class="headerlink" href="#nemweb_sqlite.table_latest_record" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the lastest timestamp from a table in an sqlite3 database as a datetime object.
 Timestamp fields in nemweb files usually named “SETTLEMENTDATE”, but sometimes
 INTERVAL_DATETIME is used.</p>
