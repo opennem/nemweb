@@ -13,17 +13,22 @@ def create_config():
     with open(os.path.join(local_dir,".nemweb_config.ini"), "w") as cfgfile:
         config.write(cfgfile)
 
-
 class PostInstallCommand(install):
     """Post-installation for install mode."""
     def run(self):
-        create_config()
+        try:
+            create_config()
+        except:
+            pass
         install.run(self)
 
 class PostDevelopCommand(develop):
     """Post-installation for development mode."""
     def run(self):
-        create_config()
+        try:
+            create_config()
+        except:
+            pass
         develop.run(self)
 
 setup(name='nemweb',
