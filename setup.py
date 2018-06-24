@@ -6,10 +6,10 @@ setup(name='nemweb',
       long_description="",
       author='dylan',
       author_email='dylan@opennem.org.au',
+      packages = ['.']
       license='MIT',
       packages=['nemweb'],
       zip_safe=False,
       install_requires=[
           'pandas',
-          'requests',
-          'nemweb'])
+          'requests'])
