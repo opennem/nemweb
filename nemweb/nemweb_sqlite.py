@@ -5,15 +5,10 @@ import os
 import datetime
 from nemweb import CONFIG
 
-try:
-    SQLITE_DIR = CONFIG['local_settings']['sqlite_dir']
-except:
-    print ("No config file")
-
 def insert(dataframe, table_name, db_name="nemweb_live.db"):
     """Inserts dataframe into a table (table name) in an sqlite3 database (db_name).
     Database directory needs to be specfied in config.ini file"""
-    with sqlite3.connect(os.path.join(SQLITE_DIR, db_name)) as conn:
+    with sqlite3.connect(os.path.join(CONFIG['local_settings']['sqlite_dir'], db_name)) as conn:
         dataframe.to_sql(table_name, con=conn, if_exists='append', index=None)
         conn.commit()
 
@@ -21,7 +16,7 @@ def table_latest_record(table_name, db_name="nemweb_live.db", timestamp_col="SET
     """Returns the lastest timestamp from a table in an sqlite3 database as a datetime object.
     Timestamp fields in nemweb files usually named "SETTLEMENTDATE", but sometimes
     INTERVAL_DATETIME is used."""
-    with sqlite3.connect(os.path.join(SQLITE_DIR, db_name)) as conn:
+    with sqlite3.connect(os.path.join(CONFIG['local_settings']['sqlite_dir'] db_name)) as conn:
         result = conn.execute("SELECT MAX({0}) FROM {1}".format(timestamp_col, table_name))
         date_str = result.fetchall()[0][0]
     return datetime.datetime.strptime(date_str, '%Y/%m/%d %H:%M:%S')
