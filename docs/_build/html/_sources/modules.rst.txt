@@ -1,7 +1,0 @@
-nemweb
-======
-
-.. toctree::
-   :maxdepth: 4
-
-   nemweb
