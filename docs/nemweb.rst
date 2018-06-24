@@ -1,8 +1,5 @@
-nemweb package
+nemweb
 ==============
-
-modules
-----------
 
 nemfile\_reader
 -----------------------------

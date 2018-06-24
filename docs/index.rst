@@ -6,8 +6,12 @@
 Welcome to nemweb's documentation!
 ==================================
 
+This is a python package to directly download and process AEMO files from http://www.nemweb.com.au/. The package donwloads the nemweb files and inserts the tables with in a local sqlite database. 
+
+The key modules are found below:
+
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Contents:
 
    nemweb
