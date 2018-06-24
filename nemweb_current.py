@@ -18,7 +18,7 @@ import datetime
 import re
 from collections import namedtuple
 import requests
-from nemweb import nemfile_reader, nemweb_sqlite
+from . import nemfile_reader, nemweb_sqlite
 
 class CurrentFileHandler:
     """class for handling 'CURRENT' nemweb files from http://www.nemweb.com.au

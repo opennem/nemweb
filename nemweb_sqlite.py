@@ -3,7 +3,7 @@
 import sqlite3
 import os
 import datetime
-from nemweb import CONFIG
+from . import CONFIG
 
 
 SQLITE_DIR = CONFIG['local_settings']['sqlite_dir']
