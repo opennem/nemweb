@@ -37,7 +37,7 @@ setup(name='nemweb',
       install_requires=[
           'pandas',
           'requests'],
-      cmdclass={'install': PostInstallCommand},
+      cmdclass={'install': PostInstallCommand,
                 'develop': PostDevelopCommand})
 
 
