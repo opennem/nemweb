@@ -5,8 +5,10 @@ import os
 import datetime
 from nemweb import CONFIG
 
-
-SQLITE_DIR = CONFIG['local_settings']['sqlite_dir']
+try:
+    SQLITE_DIR = CONFIG['local_settings']['sqlite_dir']
+except:
+    print ("No config file")
 
 def insert(dataframe, table_name, db_name="nemweb_live.db"):
     """Inserts dataframe into a table (table name) in an sqlite3 database (db_name).
