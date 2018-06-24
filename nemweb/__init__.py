@@ -2,6 +2,6 @@
 import configparser
 import os
 
-MODULE_DIR = os.path.dirname(__file__)
+LOCAL_DIR = os.path.expanduser("~")
 CONFIG = configparser.RawConfigParser()
-CONFIG.read(os.path.join(MODULE_DIR, 'config.ini'))
+CONFIG.read(os.path.join(LOCAL_DIR, '.nemweb_config.ini'))
