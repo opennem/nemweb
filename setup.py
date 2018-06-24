@@ -2,6 +2,7 @@ import os
 import configparser
 from setuptools import setup
 from setuptools.command.install import install
+from setuptools.command.develop import develop
 
 def create_config():
     local_dir = os.path.expanduser("~")
