@@ -16,7 +16,7 @@ def table_latest_record(table_name, db_name="nemweb_live.db", timestamp_col="SET
     """Returns the lastest timestamp from a table in an sqlite3 database as a datetime object.
     Timestamp fields in nemweb files usually named "SETTLEMENTDATE", but sometimes
     INTERVAL_DATETIME is used."""
-    with sqlite3.connect(os.path.join(CONFIG['local_settings']['sqlite_dir'] db_name)) as conn:
+    with sqlite3.connect(os.path.join(CONFIG['local_settings']['sqlite_dir'], db_name)) as conn:
         result = conn.execute("SELECT MAX({0}) FROM {1}".format(timestamp_col, table_name))
         date_str = result.fetchall()[0][0]
     return datetime.datetime.strptime(date_str, '%Y/%m/%d %H:%M:%S')
