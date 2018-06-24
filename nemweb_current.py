@@ -18,7 +18,7 @@ import datetime
 import re
 from collections import namedtuple
 import requests
-from . import nemfile_reader, nemweb_sqlite
+from nemweb import nemfile_reader, nemweb_sqlite
 
 class CurrentFileHandler:
     """class for handling 'CURRENT' nemweb files from http://www.nemweb.com.au
@@ -127,7 +127,7 @@ def update_datasets():
     """function that updates a subset of datasets in contained in DATASETS"""
     filehandler = CurrentFileHandler()
     for dataset_name in ["trading_is", "dispatch_scada", "dispatch_is"]:
-        filehandler.update_data(dataset_name)
+        filehandler.update_data(DATASETS[dataset_name])
 
 if __name__ == "__main__":
     update_datasets()
