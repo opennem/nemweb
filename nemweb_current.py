@@ -1,8 +1,9 @@
 """Module for downloading data different 'CURRENT' nemweb dataset
 (selected data sets from files from http://www.nemweb.com.au/Reports/CURRENT)
 
-Module includes one main superclass for generic nemweb files, and a series of
-subclasses for specfic datasets. Datasets included from `CURRENT` index page:
+Module includes one main superclass for handling generic nemweb current files. A series of
+namedtuples (strored in global constant DATASETS) contains the relevant data for specfic datasets.
+Datasets included from `CURRENT` index page:
 - TradingIS_Reports
 - DispatchIS_Reports
 - Dispatch_SCADA
@@ -14,11 +15,12 @@ subclasses for specfic datasets. Datasets included from `CURRENT` index page:
 from io import BytesIO
 import datetime
 import re
+from collections import namedtuple
 import requests
 from nemweb import nemfile_reader, nemweb_sqlite
 
-class NemwebCurrentFile:
-    """superclass for handling 'CURRENT' nemweb files from http://www.nemweb.com.au
+class CurrentFileHandler:
+    """class for handling 'CURRENT' nemweb files from http://www.nemweb.com.au
     Each subclass requires:
     - nemweb_name: the name of the dataset to be download (e.g. Dispatch_SCADA)
     - filename_pattern: a regex expression to match and a determine datetime from filename
@@ -35,33 +37,29 @@ class NemwebCurrentFile:
     def __init__(self):
         self.base_url = "http://www.nemweb.com.au"
         self.section = "Reports/CURRENT"
-        self.nemweb_name = None
-        self.file_pattern = None
-        self.datetime_format = None
-        self.tables = []
 
-    def update_data(self):
+    def update_data(self, dataset):
         """Main method to process nemweb dataset
         - downloads the index page for the dataset
         - determines date to start downloading from
         - matches the start date against files in the index
         - inserts new files into database"""
-        start_date = nemweb_sqlite.start_from(self.tables[0])
-        page = requests.get("{0}/{1}/{2}/".format(self.base_url, self.section, self.nemweb_name))
-        regex = re.compile("/{0}/{1}/{2}".format(self.section, self.nemweb_name, self.file_pattern))
+        start_date = nemweb_sqlite.start_from(dataset.tables[0])
+        page = requests.get("{0}/{1}/{2}/".format(self.base_url,
+                                                  self.section,
+                                                  dataset.dataset_name))
+        regex = re.compile("/{0}/{1}/{2}".format(self.section,
+                                                 dataset.dataset_name,
+                                                 dataset.nemfile_pattern))
 
         for match in regex.finditer(page.text):
-            file_datetime = datetime.datetime.strptime(match.group(1), self.datetime_format)
+            file_datetime = datetime.datetime.strptime(match.group(1), dataset.datetime_format)
             if file_datetime > start_date:
                 print(file_datetime)
                 nemfile = self.download(match.group(0))
-                self.insert_tables(nemfile)
-
-    def insert_tables(self, nemfile):
-        """Inserts dataframe into relevant table"""
-        for table in self.tables:
-            dataframe = nemfile[table].drop_duplicates().copy()
-            nemweb_sqlite.insert(dataframe, table)
+                for table in dataset.tables:
+                    dataframe = nemfile[table].drop_duplicates().copy()
+                    nemweb_sqlite.insert(dataframe, table)
 
     def download(self, link):
         """Dowloads nemweb zipfile from link into memory as a byteIO object.
@@ -71,67 +69,61 @@ class NemwebCurrentFile:
         nemfile = nemfile_reader.nemzip_reader(zip_bytes)
         return nemfile
 
-class DispatchSCADA(NemwebCurrentFile):
-    """subclass of NemwebCurrentFile for Dispatch SCADA dataset
-    Dataset contains dispatch unit scada table"""
-    def __init__(self):
-        NemwebCurrentFile.__init__(self)
-        self.nemweb_name = "Dispatch_SCADA"
-        self.file_pattern = 'PUBLIC_DISPATCHSCADA_([0-9]{12})_[0-9]{16}.zip'
-        self.datetime_format = "%Y%m%d%H%M"
-        self.tables = ["DISPATCH_UNIT_SCADA"]
 
-class TradingIS(NemwebCurrentFile):
-    """subclass of NemwebCurrentFile for Trading IS reports dataset.
-    Dataset contains trading (30min) price, regionsum and interconnectorres tables"""
-    def __init__(self):
-        NemwebCurrentFile.__init__(self)
-        self.nemweb_name = "TradingIS_Reports"
-        self.file_pattern = "PUBLIC_TRADINGIS_([0-9]{12})_[0-9]{16}.zip"
-        self.datetime_format = "%Y%m%d%H%M"
-        self.tables = ['TRADING_PRICE', 'TRADING_REGIONSUM', 'TRADING_INTERCONNECTORRES']
+#class factory function for containing data for 'Current' datasets
+CurrentDataset = namedtuple("NemwebCurrentFile",
+                            ["dataset_name",
+                             "nemfile_pattern",
+                             "datetime_format",
+                             "tables"])
 
-class RooftopPVActual(NemwebCurrentFile):
-    """subclass of NemwebCurrentFile for Actual Rooftop PV dataset.
-    Adata set contians rooftop actual table"""
-    def __init__(self):
-        NemwebCurrentFile.__init__(self)
-        self.nemweb_name = "ROOFTOP_PV/ACTUAL"
-        self.file_pattern = "PUBLIC_ROOFTOP_PV_ACTUAL_([0-9]{14})_[0-9]{16}.zip"
-        self.datetime_format = "%Y%m%d%H%M00"
-        self.tables = ['ROOFTOP_ACTUAL']
+DATASETS = {
+    "dispatch_scada":CurrentDataset(
+        dataset_name="Dispatch_SCADA",
+        nemfile_pattern='PUBLIC_DISPATCHSCADA_([0-9]{12})_[0-9]{16}.zip',
+        datetime_format="%Y%m%d%H%M",
+        tables=["DISPATCH_UNIT_SCADA"]),
 
-class NextDayActualGen(NemwebCurrentFile):
-    """subclass of NemwebCurrentFile for Next Day Actual Gen
-        Dataset contains meter data gen duid table"""
-    def __init__(self):
-        NemwebCurrentFile.__init__(self)
-        self.nemweb_name = "Next_Day_Actual_Gen"
-        self.file_pattern = "PUBLIC_NEXT_DAY_ACTUAL_GEN_([0-9]{8})_[0-9]{16}.zip"
-        self.datetime_format = "%Y%m%d"
-        self.tables = ['METER_DATA_GEN_DUID']
+    "trading_is":    CurrentDataset(
+        dataset_name="TradingIS_Reports",
+        nemfile_pattern="PUBLIC_TRADINGIS_([0-9]{12})_[0-9]{16}.zip",
+        datetime_format="%Y%m%d%H%M",
+        tables=['TRADING_PRICE',
+                'TRADING_REGIONSUM',
+                'TRADING_INTERCONNECTORRES']),
 
-class DispatchIS(NemwebCurrentFile):
-    """subclass of NemwebCurrentFile for Dispatch IS reports dataset.
-    Dataset contains dispatch (5min) price, regionsum and interconnectorres tables"""
-    def __init__(self):
-        NemwebCurrentFile.__init__(self)
-        self.nemweb_name = "DispatchIS_Reports"
-        self.file_pattern = "PUBLIC_DISPATCHIS_([0-9]{12})_[0-9]{16}.zip"
-        self.datetime_format = "%Y%m%d%H%M"
-        self.tables = ['DISPATCH_PRICE', 'DISPATCH_REGIONSUM', 'DISPATCH_INTERCONNECTORRES']
+    "rooftopPV_actual": CurrentDataset(
+        dataset_name="ROOFTOP_PV/ACTUAL",
+        nemfile_pattern="PUBLIC_ROOFTOP_PV_ACTUAL_([0-9]{14})_[0-9]{16}.zip",
+        datetime_format="%Y%m%d%H%M00",
+        tables=['ROOFTOP_ACTUAL']),
 
-class NextDayDispatch(NemwebCurrentFile):
-    """subclass of NemwebCurrentFile for Next Day Dispatch dataset.
-    Dataset contains as dispatch unit solution table"""
-    def __init__(self):
-        NemwebCurrentFile.__init__(self)
-        self.nemweb_name = "Next_Day_Dispatch"
-        self.file_pattern = "PUBLIC_NEXT_DAY_DISPATCH_([0-9]{8})_[0-9]{16}.zip"
-        self.datetime_format = "%Y%m%d"
-        self.tables = ['DISPATCH_UNIT_SOLUTION']
+    "next_day_actual_gen": CurrentDataset(
+        dataset_name="Next_Day_Actual_Gen",
+        nemfile_pattern="PUBLIC_NEXT_DAY_ACTUAL_GEN_([0-9]{8})_[0-9]{16}.zip",
+        datetime_format="%Y%m%d",
+        tables=['METER_DATA_GEN_DUID']),
+
+    "dispatch_is": CurrentDataset(
+        dataset_name="DispatchIS_Reports",
+        nemfile_pattern="PUBLIC_DISPATCHIS_([0-9]{12})_[0-9]{16}.zip",
+        datetime_format="%Y%m%d%H%M",
+        tables=['DISPATCH_PRICE',
+                'DISPATCH_REGIONSUM',
+                'DISPATCH_INTERCONNECTORRES']),
+
+    "next_day_dispatch": CurrentDataset(
+        dataset_name="Next_Day_Dispatch",
+        nemfile_pattern="PUBLIC_NEXT_DAY_DISPATCH_([0-9]{8})_[0-9]{16}.zip",
+        datetime_format="%Y%m%d",
+        tables=['DISPATCH_UNIT_SOLUTION'])
+}
+
+def update_datasets():
+    """function that updates a subset of datasets in contained in DATASETS"""
+    filehandler = CurrentFileHandler()
+    for dataset_name in ["trading_is", "dispatch_scada", "dispatch_is"]:
+        filehandler.update_data(dataset_name)
 
 if __name__ == "__main__":
-    for nemwebfile in [TradingIS, DispatchIS, DispatchSCADA]:
-        NemwebFile = nemwebfile()
-        NemwebFile.update_data()
+    update_datasets()
