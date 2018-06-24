@@ -14,7 +14,7 @@ class ZipFileStreamer(ZipFile):
 
     def extract_stream(self, member):
         """Extract a member from the archive as a byte stream or string steam, using
-        its full name. `member' may be a filename or a ZipInfo object. """
+        its full name. 'member' may be a filename or a ZipInfo object. """
         return BytesIO(self.read(member))
 
 def zip_streams(fileobject):
