@@ -3,7 +3,8 @@
 
 Module includes one main superclass for handling generic nemweb current files. A series of
 namedtuples (strored in global constant DATASETS) contains the relevant data for specfic datasets.
-Datasets included from `CURRENT` index page:
+Datasets included from 'CURRENT' index page:
+
 - TradingIS_Reports
 - DispatchIS_Reports
 - Dispatch_SCADA
@@ -21,18 +22,21 @@ from nemweb import nemfile_reader, nemweb_sqlite
 
 class CurrentFileHandler:
     """class for handling 'CURRENT' nemweb files from http://www.nemweb.com.au
-    Each subclass requires:
+    Requires a 'CurrentDataset' namedtuple with following fields:
+
     - nemweb_name: the name of the dataset to be download (e.g. Dispatch_SCADA)
     - filename_pattern: a regex expression to match and a determine datetime from filename
-     on nemweb. As example, for files in the Dispatch_SCADA dataset
-     (e.g "PUBLIC_DISPATCHSCADA_201806201135_0000000296175732.zip") the regex
-     file_patten is PUBLIC_DISPATCHSCADA_([0-9]{12})_[0-9]{16}.zip
-     - the format of the string to strip the datetime from. From the above example, the
-     match returns '201806201135', so the string is "%Y%m%d%H%M",
-     - the list of tables to insert from each dataset. This is derived from the 2nd and
+      on nemweb. As example, for files in the Dispatch_SCADA dataset
+      (e.g "PUBLIC_DISPATCHSCADA_201806201135_0000000296175732.zip") the regex
+      file_patten is PUBLIC_DISPATCHSCADA_([0-9]{12})_[0-9]{16}.zip
+    - the format of the string to strip the datetime from. From the above example, the
+      match returns '201806201135', so the string is "%Y%m%d%H%M",
+    - the list of tables to insert from each dataset. This is derived from the 2nd and
       3rd column in the nemweb dataset. For example, the 2nd column is in Dispatch_SCADA
       is "DISPATCH" and the 3rd is "SCADA_VALUE" and the name is "DISPATCH_UNIT_SCADA".
-      Several datasets contain multiple tables."""
+
+    Several datasets contain multiple tables. Examples can be found in the DATASETS dict 
+    (nemweb_reader.DATASETS)"""
 
     def __init__(self):
         self.base_url = "http://www.nemweb.com.au"
