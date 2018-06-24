@@ -11,4 +11,4 @@ setup(name='nemweb',
       zip_safe=False,
       install_requires=[
           'pandas',
-          'requests']
+          'requests'])
