@@ -49,7 +49,6 @@ nemweb_current.update_datasets([dispatch_scada], print_progress = True)
 'Dispatch_SCADA 2018-06-24 13:55:00'
 '...'
 ```
-
 Currently, the following dataset are built in to the package, and can be added and downloaded automatically from the `Current` index of nemweb (http://www.nemweb.com.au/Reports/Current/) 
 
 * `next_day_actual_gen`
@@ -59,6 +58,8 @@ Currently, the following dataset are built in to the package, and can be added a
 * `next_day_dispatch`
 * `dispatch_is`
 
+Other datasets can be add by using using the class factory function for containing data for 'Current' datasets (`CurrentDataset`) found in the `nemweb_current` module.  The namedtuple from this can then be used with `CurrentFileHandler`
+class to download and process that dataset.
 
 ## Documentation
 
