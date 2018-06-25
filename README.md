@@ -23,7 +23,9 @@ From the package directory. If installing by setup.py, a post-install script wil
 'Enter directory (abs path) to store for sqlite db:'/home/dylan/Data
 ```
 
-This value will live in a configuration file in your root directory (`$HOME/.nemweb_config.ini`). If you install via `pip` you must manually enter the directory post-install (...couldn't figure out how to make post-install scripts to work with `pip`). 
+This value will live in a configuration file in your root directory (`$HOME/.nemweb_config.ini`). 
+
+**IMPORTANT** If you install via `pip` you must manually enter the sqlite directory in a file named `.nemweb_config.ini` in your home directly post-install (...couldn't figure out how to make post-install scripts to work with `pip`). 
 
 ## Quick example
 
@@ -60,7 +62,7 @@ Currently, the following dataset are built in to the package, and can be added a
 
 ## Documentation
 
-[![Build Status](https://media.readthedocs.org/static/projects/badges/passing-flat.svg)]
+[Build Status](https://media.readthedocs.org/static/projects/badges/passing-flat.svg)
 
 For more information see here: https://nemweb.readthedocs.io/en/latest/nemweb.html
 
