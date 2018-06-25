@@ -35,7 +35,7 @@ class CurrentFileHandler:
       3rd column in the nemweb dataset. For example, the 2nd column is in Dispatch_SCADA
       is "DISPATCH" and the 3rd is "SCADA_VALUE" and the name is "DISPATCH_UNIT_SCADA".
 
-    Several datasets contain multiple tables. Examples can be found in the DATASETS dict 
+    Several datasets contain multiple tables. Examples can be found in the DATASETS dict
     (nemweb_reader.DATASETS)"""
 
     def __init__(self):
@@ -123,11 +123,8 @@ DATASETS = {
         tables=['DISPATCH_UNIT_SOLUTION'])
 }
 
-def update_datasets():
-    """function that updates a subset of datasets in contained in DATASETS"""
+def update_datasets(datasets):
+    """function that updates a subset of datasets (as a list) contained in DATASETS"""
     filehandler = CurrentFileHandler()
-    for dataset_name in ["trading_is", "dispatch_scada", "dispatch_is"]:
+    for dataset_name in datasets:
         filehandler.update_data(DATASETS[dataset_name])
-
-if __name__ == "__main__":
-    update_datasets()
