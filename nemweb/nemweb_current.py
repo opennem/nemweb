@@ -59,7 +59,6 @@ class CurrentFileHandler:
         for match in regex.finditer(page.text):
             file_datetime = datetime.datetime.strptime(match.group(1), dataset.datetime_format)
             if file_datetime > start_date:
-                print(file_datetime)
                 nemfile = self.download(match.group(0))
                 for table in dataset.tables:
                     dataframe = nemfile[table].drop_duplicates().copy()
