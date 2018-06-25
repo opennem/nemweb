@@ -29,7 +29,7 @@ def start_from(table_name, db_name="nemweb_live.db", timestamp_col="SETTLEMENTDA
     except sqlite3.OperationalError as error:
         msg = error.args[0].split(":")
         if msg[0] == 'no such table':
-            date_str = input("{0} doesn't exists. Enter start date [YYYYMMDD]: ".format(msg[1]))
+            date_str = input("{0} doesn't exist. Enter start date [YYYYMMDD]: ".format(msg[1]))
             date = datetime.datetime.strptime(date_str, "%Y%m%d")
         else:
             raise error
