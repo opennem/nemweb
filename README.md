@@ -62,7 +62,7 @@ Currently, the following dataset are built in to the package, and can be added a
 
 ## Documentation
 
-[Build Status](https://media.readthedocs.org/static/projects/badges/passing-flat.svg)
+![Build Status](https://media.readthedocs.org/static/projects/badges/passing-flat.svg)
 
 For more information see here: https://nemweb.readthedocs.io/en/latest/nemweb.html
 
