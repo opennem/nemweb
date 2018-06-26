@@ -1,5 +1,5 @@
 # nemweb
-This is a python3 package to directly download and process AEMO files from http://www.nemweb.com.au/. Main module within the package dowloads the nemweb files and inserts the tables with into a local sqlite database.
+This is a python3 package to directly download and process AEMO files from http://www.nemweb.com.au/. Main module within the package dowloads the nemweb files and inserts the tables into a local sqlite database.
 
 This forms part of the backend of the [OpenNEM](https://opennem.org.au/#/all-regions) platform. The openNEM backend utilises a normalised mysql database (with foreign key and unique constraints). At present, this package only includes a simple sqlite interface without this support of capability. A mysql interface and module will be added (..eventually)
 
