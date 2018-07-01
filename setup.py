@@ -34,7 +34,7 @@ class PostDevelopCommand(develop):
 setup(name='nemweb',
       version='0.1',
       description="newweb file handler",
-      long_description="",
+      long_description="python package to directly download and process AEMO files from http://www.nemweb.com.au/ and inserts tables into a local sqlite database.",
       author='dylan',
       author_email='dylan@opennem.org.au',
       license='MIT',
@@ -45,6 +45,3 @@ setup(name='nemweb',
           'requests'],
       cmdclass={'install': PostInstallCommand,
                 'develop': PostDevelopCommand})
-
-
-
