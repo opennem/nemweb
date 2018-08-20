@@ -63,7 +63,7 @@ class to download and process that dataset.
 
 ## Documentation
 
-![Build Status](https://media.readthedocs.org/static/projects/badges/passing-flat.svg)
+![Build Status](https://readthedocs.org/projects/nemweb/badge/?version=latest)
 
 For more information see here: https://nemweb.readthedocs.io/en/latest/nemweb.html
 
@@ -71,7 +71,7 @@ For more information see here: https://nemweb.readthedocs.io/en/latest/nemweb.ht
 
 In no particular order:
 
-* Add more datasets from `Current` index
-* Add module to procee archived data (from `Archive` index: http://www.nemweb.com.au/Reports/ARCHIVE/)
+* Add more datasets from `Current` [index](http://www.nemweb.com.au/Reports/Current/)
+* Add module to process archived data (from `Archive` [index](http://www.nemweb.com.au/Reports/ARCHIVE/))
 * Add more sophisticate support for sqlite database (e.g. selectively inserting fields, tables from dataset)
 * Add module for interfacing with mysql database
