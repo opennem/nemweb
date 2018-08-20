@@ -63,7 +63,7 @@ class to download and process that dataset.
 
 ## Documentation
 
-![Build Status](https://media.readthedocs.org/static/projects/badges/passing-flat.svg)
+![Build Status](https://readthedocs.org/projects/nemweb/badge/?version=latest)
 
 For more information see here: https://nemweb.readthedocs.io/en/latest/nemweb.html
 
