@@ -20,6 +20,7 @@ from collections import namedtuple
 import requests
 from nemweb import nemfile_reader, nemweb_sqlite
 
+
 class CurrentFileHandler:
     """class for handling 'CURRENT' nemweb files from http://www.nemweb.com.au
     Requires a 'CurrentDataset' namedtuple with following fields:
@@ -76,7 +77,7 @@ class CurrentFileHandler:
         return nemfile
 
 
-#class factory function for containing data for 'Current' datasets
+#  class factory function for containing data for 'Current' datasets
 CurrentDataset = namedtuple("NemwebCurrentFile",
                             ["dataset_name",
                              "nemfile_pattern",
@@ -131,6 +132,7 @@ DATASETS = {
         datetime_column="SETTLEMENTDATE",
         tables=['DISPATCH_UNIT_SOLUTION'])
 }
+
 
 def update_datasets(datasets, print_progress=False):
     """function that updates a subset of datasets (as a list) contained in DATASETS"""
