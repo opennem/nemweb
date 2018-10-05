@@ -20,6 +20,7 @@ from collections import namedtuple
 import requests
 from nemweb import nemfile_reader, nemweb_sqlite
 
+
 class CurrentFileHandler:
     """class for handling 'CURRENT' nemweb files from http://www.nemweb.com.au
     Requires a 'CurrentDataset' namedtuple with following fields:
@@ -42,14 +43,28 @@ class CurrentFileHandler:
         self.base_url = "http://www.nemweb.com.au"
         self.section = "Reports/CURRENT"
 
-    def update_data(self, dataset, print_progress=False):
+    def update_data(
+            self,
+            dataset,
+            print_progress=False,
+            start_date=None,
+            end_date='30001225',  #  must be a better way
+            db_name='nemweb_live.db'  #  maybe this should look at config?
+    ):
         """Main method to process nemweb dataset
         - downloads the index page for the dataset
         - determines date to start downloading from
         - matches the start date against files in the index
         - inserts new files into database"""
-        start_date = nemweb_sqlite.start_from(dataset.tables[0],
-                                              timestamp_col=dataset.datetime_column)
+        start_date = nemweb_sqlite.start_from(
+            table_name=dataset.tables[0],
+            timestamp_col=dataset.datetime_column,
+            start_date=start_date,
+            db_name=db_name
+        )
+
+        end_date = datetime.datetime.strptime(end_date, '%Y%m%d')
+
         page = requests.get("{0}/{1}/{2}/".format(self.base_url,
                                                   self.section,
                                                   dataset.dataset_name))
@@ -59,13 +74,13 @@ class CurrentFileHandler:
 
         for match in regex.finditer(page.text):
             file_datetime = datetime.datetime.strptime(match.group(1), dataset.datetime_format)
-            if file_datetime > start_date:
+            if end_date > file_datetime > start_date:
                 nemfile = self.download(match.group(0))
                 if print_progress:
                     print(dataset.dataset_name, file_datetime)
                 for table in dataset.tables:
                     dataframe = nemfile[table].drop_duplicates().copy()
-                    nemweb_sqlite.insert(dataframe, table)
+                    nemweb_sqlite.insert(dataframe, table, db_name)
 
     def download(self, link):
         """Dowloads nemweb zipfile from link into memory as a byteIO object.
@@ -76,7 +91,7 @@ class CurrentFileHandler:
         return nemfile
 
 
-#class factory function for containing data for 'Current' datasets
+#  class factory function for containing data for 'Current' datasets
 CurrentDataset = namedtuple("NemwebCurrentFile",
                             ["dataset_name",
                              "nemfile_pattern",
@@ -131,6 +146,7 @@ DATASETS = {
         datetime_column="SETTLEMENTDATE",
         tables=['DISPATCH_UNIT_SOLUTION'])
 }
+
 
 def update_datasets(datasets, print_progress=False):
     """function that updates a subset of datasets (as a list) contained in DATASETS"""

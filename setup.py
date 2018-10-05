@@ -44,4 +44,6 @@ setup(name='nemweb',
           'pandas',
           'requests'],
       cmdclass={'install': PostInstallCommand,
-                'develop': PostDevelopCommand})
+                'develop': PostDevelopCommand},
+      package_data={'nemweb': 'tests/2018_09_21.pkl'}
+      )
