@@ -47,9 +47,7 @@ class CurrentFileHandler:
             self,
             dataset,
             print_progress=False,
-            start_date=None,
-            end_date='30001225',  #  must be a better way
-            db_name='nemweb_live.db'  #  maybe this should look at config?
+            db_name='nemweb_live.db'
     ):
         """Main method to process nemweb dataset
         - downloads the index page for the dataset
@@ -59,11 +57,8 @@ class CurrentFileHandler:
         start_date = nemweb_sqlite.start_from(
             table_name=dataset.tables[0],
             timestamp_col=dataset.datetime_column,
-            start_date=start_date,
             db_name=db_name
         )
-
-        end_date = datetime.datetime.strptime(end_date, '%Y%m%d')
 
         page = requests.get("{0}/{1}/{2}/".format(self.base_url,
                                                   self.section,
@@ -74,7 +69,7 @@ class CurrentFileHandler:
 
         for match in regex.finditer(page.text):
             file_datetime = datetime.datetime.strptime(match.group(1), dataset.datetime_format)
-            if end_date > file_datetime > start_date:
+            if file_datetime > start_date:
                 nemfile = self.download(match.group(0))
                 if print_progress:
                     print(dataset.dataset_name, file_datetime)
