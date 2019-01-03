@@ -38,13 +38,12 @@ def table_latest_record(
 def start_from(
         table_name,
         db_name="nemweb_live.db",
-        timestamp_col="SETTLEMENTDATE",
-        start_date=None
+        timestamp_col="SETTLEMENTDATE"
 ):
     """
     Returns a date to start downloading data from.
-    Tries determining latest date from table in database. On fail prompts user
-    to input date.
+    Tries determining latest date from table in database. On fail falls back to
+    CONFIG file value. 
     """
     try:
         date = table_latest_record(
@@ -52,10 +51,11 @@ def start_from(
         )
 
     except sqlite3.OperationalError as error:
-        # msg = error.args[0].split(":")
-        # if msg[0] == 'no such table':
-        #     date_str = input("{0} doesn't exist. Enter start date [YYYYMMDD]: ".format(msg[1]))
-        #     date = datetime.datetime.strptime(date_str, "%Y%m%d")
-        date = datetime.datetime.strptime(start_date, "%Y%m%d")
+        msg = error.args[0].split(":")
+        if msg[0] == 'no such table':
+            date_str = os.path.join(CONFIG['local_settings']['start_date'])
+            date = datetime.datetime.strptime(date_str, "%Y%m%d")
+        else:
+            raise error
 
     return date
