@@ -42,3 +42,13 @@ def test_table_creation():
     cur = conn.cursor()
     test_data = cur.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
     assert test_data == [('TRADING_PRICE',), ('TRADING_REGIONSUM',), ('TRADING_INTERCONNECTORRES',)]
+
+
+@pytest.mark.parametrize("table, count", [['TRADING_PRICE',5],
+                                          ['TRADING_REGIONSUM',5],
+                                          ['TRADING_INTERCONNECTORRES',6]])
+def test_data_count(table, count):
+    """checks keys data in tables (and lenth data matches expected data in trading interval)"""
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    assert cur.execute("SELECT count(*) FROM '{0}'".format(table)).fetchall()[0][0]
