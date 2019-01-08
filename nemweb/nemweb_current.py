@@ -47,17 +47,19 @@ class CurrentFileHandler:
             self,
             dataset,
             print_progress=False,
-            db_name='nemweb_live.db'
+            db_name='nemweb_live.db',
+            start_date = None
     ):
         """Main method to process nemweb dataset
         - downloads the index page for the dataset
         - determines date to start downloading from
         - matches the start date against files in the index
         - inserts new files into database"""
-        start_date = nemweb_sqlite.start_from(
-            table_name=dataset.tables[0],
-            timestamp_col=dataset.datetime_column,
-            db_name=db_name
+        if start_date == None:
+            start_date = nemweb_sqlite.start_from(
+                table_name=dataset.tables[0],
+                timestamp_col=dataset.datetime_column,
+                db_name=db_name
         )
 
         page = requests.get("{0}/{1}/{2}/".format(self.base_url,
