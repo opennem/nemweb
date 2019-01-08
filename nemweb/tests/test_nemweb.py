@@ -11,15 +11,14 @@ from nemweb.nemweb_current import CurrentFileHandler, DATASETS, update_datasets
 
 from nemweb.utils import load_pickle, local_to_nem_tz
 
+DB_PATH = os.path.join(
+    CONFIG['local_settings']['sqlite_dir'], 'test.db')
 
 #setup = perhaps this could be turned into a fixture?
-def test_nemweb():
-    db_path = os.path.join(
-        CONFIG['local_settings']['sqlite_dir'], 'test.db'
-    )
+def nemweb_current():
 
-    if os.path.exists(db_path):
-        os.remove(db_path)
+    if os.path.exists(DB_PATH):
+        os.remove(DB_PATH)
         print('removed previous test database')
 
     handler = CurrentFileHandler()
@@ -36,20 +35,10 @@ def test_nemweb():
         start_date = start_datetime
     )
 
-test_nemweb()
+nemweb_current()
 
 def test_table_creation():
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     test_data = cur.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
     assert test_data == [('TRADING_PRICE',), ('TRADING_REGIONSUM',), ('TRADING_INTERCONNECTORRES',)]
-
-#@pytest.mark.parametrize("section", CONFIG.sections())
-def test_section_keys(table="TRADING_PRICE"):
-    """checks keys data in tables (and lenth data matches expected data in trading interval)"""
-    conn = sqlite3.connect(db_path)
-    cur = conn.cursor()
-    return (cur.execute("SELECT count(*) FROM ='{0}'".format(table).fetchall()
-
-
-
