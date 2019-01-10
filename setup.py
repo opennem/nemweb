@@ -9,7 +9,9 @@ def create_config():
     config = configparser.ConfigParser()
     config.add_section("local_settings")
     _dir = input("Enter directory (abs path) to store for sqlite db:")
+    date = input("Enter default date to begin down loading from (YYYYMMDD):")
     config.set("local_settings","sqlite_dir",_dir)
+    config.set("local_settings","start_date", date)
     with open(os.path.join(local_dir,".nemweb_config.ini"), "w") as cfgfile:
         config.write(cfgfile)
 
