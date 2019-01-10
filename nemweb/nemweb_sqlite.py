@@ -52,7 +52,7 @@ def start_from(
 
     except sqlite3.OperationalError as error:
         msg = error.args[0].split(":")
-        if msg[0] in  ['no such table', 'unable to open database file']:
+        if msg[0] == 'no such table':
             date_str = os.path.join(CONFIG['local_settings']['start_date'])
             date = datetime.datetime.strptime(date_str, "%Y%m%d")
         else:
