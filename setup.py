@@ -7,10 +7,33 @@ from setuptools.command.develop import develop
 def create_config():
     local_dir = os.path.expanduser("~")
     config = configparser.ConfigParser()
-    config.add_section("local_settings")
-    _dir = input("Enter directory (abs path) to store for sqlite db:")
-    config.set("local_settings","sqlite_dir",_dir)
-    with open(os.path.join(local_dir,".nemweb_config.ini"), "w") as cfgfile:
+     # get existing values if they exist
+    fileName = os.path.join(local_dir, '.nemweb_config.ini')
+    try:
+        config.read_file(open(fileName))
+        print("found existing config file: %s" % fileName)
+    except (OSError, configparser.ParsingError):
+        print("failed to read existing config file: %s" % fileName)
+    if not config.has_section('local_settings'):
+            config.add_section('local_settings') 
+            print('added local_settings')
+    try:
+        old_sqlite_db_dir = config.get("local_settings","sqlite_dir")
+    except configparser.NoOptionError:
+        old_sqlite_db_dir = os.path.expanduser("~/NEMData/")
+    sqlite_db_dir = input("Enter sqlite directory (abs path)[" + old_sqlite_db_dir + "]:")
+    sqlite_db_dir = sqlite_db_dir or old_sqlite_db_dir
+    print("set sqlite_dir to %s" % sqlite_db_dir)
+    try:
+        old_start_date = config.get("local_settings","start_date")
+    except configparser.NoOptionError:
+        old_start_date = "20090701" # oldest known NEM data date
+    start_date = input("Enter start date to begin down loading from (YYYYMMDD):[" + old_start_date + "]:")
+    start_date = start_date or old_start_date
+    print("set start_date to %s" % start_date)
+    config.set("local_settings","sqlite_dir",sqlite_db_dir)
+    config.set("local_settings","start_date", start_date)
+    with open(os.path.join(fileName), "w") as cfgfile:
         config.write(cfgfile)
 
 class PostInstallCommand(install):
@@ -19,7 +42,7 @@ class PostInstallCommand(install):
         try:
             create_config()
         except:
-            pass
+            print("failed to create config file")
         install.run(self)
 
 class PostDevelopCommand(develop):
@@ -28,7 +51,7 @@ class PostDevelopCommand(develop):
         try:
             create_config()
         except:
-            pass
+            print("failed to create config file")
         develop.run(self)
 
 setup(name='nemweb',
