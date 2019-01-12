@@ -150,3 +150,6 @@ def update_datasets(datasets, print_progress=False):
     filehandler = CurrentFileHandler()
     for dataset_name in datasets:
         filehandler.update_data(DATASETS[dataset_name], print_progress=print_progress)
+
+if __name__ == "__main__":
+    update_datasets(["trading_is"], print_progress=True)
