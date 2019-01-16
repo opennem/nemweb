@@ -30,16 +30,15 @@ def load_pickle(name):
 
 
 
-def local_to_nem_tz(dt):
-    """Convert between naive local and naive NEM time"""
+def utc_to_nem_tz(dt):
+    """Convert between naive utc and naive NEM time"""
 
-    #convert naive localtime to tz aware datetime
-    local_tz = pytz.timezone("Australia/Melbourne")
-    dt_local = local_tz.localize(dt)
+    #convert naive utc to tz aware datetime
+    dt_utc = pytz.UTC.localize(dt)
 
     #convert to new tz (NEM tz
     nem_tz = pytz.FixedOffset(600)
-    dt_nem = dt_local.astimezone(nem_tz)
+    dt_nem = dt_utc.astimezone(nem_tz)
 
     #return new timezone (naive)
     return dt_nem.replace(tzinfo=None)

@@ -8,7 +8,7 @@ import pytest
 from nemweb import CONFIG
 from nemweb.nemweb_current import CurrentFileHandler, DATASETS
 
-from nemweb.utils import local_to_nem_tz
+from nemweb.utils import utc_to_nem_tz
 
 DB_PATH = os.path.join(
     CONFIG['local_settings']['sqlite_dir'], 'test.db')
@@ -23,8 +23,8 @@ def nemweb_current():
     handler = CurrentFileHandler()
 
     #test latest previous trading_interval
-    local_datetime = datetime.datetime.now()
-    nemtime = local_to_nem_tz(local_datetime)
+    utc_datetime = datetime.datetime.utcnow()
+    nemtime = utc_to_nem_tz(utc_datetime)
     start_datetime = nemtime - datetime.timedelta(0, 1800)
 
     handler.update_data(
