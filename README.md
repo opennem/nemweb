@@ -55,7 +55,7 @@ install (...couldn't figure out how to make post-install scripts to work with
 ```python
 from nemweb import nemweb_current
 
-nemweb_current.update_datasets([dispatch_scada])
+nemweb_current.update_datasets(['dispatch_scada'])
 DISPATCH_UNIT_SCADA doesn't exists. Enter start date [YYYYMMDD]: 20180624
 ```
 
@@ -66,7 +66,7 @@ You can chose to print progress to screen, if desired. For example (and for a ta
 ```python
 from nemweb import nemweb_current
 
-nemweb_current.update_datasets([dispatch_scada], print_progress = True)
+nemweb_current.update_datasets(['dispatch_scada'], print_progress = True)
 'Dispatch_SCADA 2018-06-24 13:40:00'
 'Dispatch_SCADA 2018-06-24 13:45:00'
 'Dispatch_SCADA 2018-06-24 13:50:00'
