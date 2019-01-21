@@ -43,3 +43,16 @@ def local_to_nem_tz(dt):
 
     #return new timezone (naive)
     return dt_nem.replace(tzinfo=None)
+
+
+def utc_to_nem(now=None):
+    """
+    Converts from UTC to nemtime
+
+    Assuming nemtime is Aussie Eastern Standard Time
+    -> 10 hour offset all year round
+    """
+    if not now:
+        now = datetime.datetime.utcnow()
+
+    return now + datetime.timedelta(hours=10)
