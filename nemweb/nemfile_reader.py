@@ -29,26 +29,32 @@ def zip_streams(fileobject):
             yield filename, zipfile.extract_stream(filename)
 
 
-def nemfile_reader(nemfile_object):
+def nemfile_reader(nemfile_object, table=None, dtype=None):
     """
     Returns a dict containing a pandas dataframe each table in a nemfile.
     The fileobject needs to be unzipped csv (nemfile), and can be either a file or an
     an in stream fileobject.
     """
     table_dict = {}
+    tablesource = None
     for line in nemfile_object.readlines():
+        print(".", end='')
         rows = line.decode().split(',')
-        table = "{0}_{1}".format(rows[1], rows[2])
-
-        #  new table
-        if rows[0] == "I":
+        if (rows[0] == "C"): #nem csv file, first line
+            tablesource = "nem"
+            table = "{0}_{1}".format(rows[1], rows[2])
+        elif tablesource == "nem": #nem csv file, other lines
+            if rows[0] == "I": #  new table
+                table_dict[table] = line           
+            elif rows[0] == "D": #  append data to each table
+                table_dict[table] += line
+        elif rows[0] == "Trading Date" : #wa csv file, first line
+            tablesource = "wa"
+            table = table
             table_dict[table] = line
-
-        #  append data to each table
-        elif rows[0] == "D":
+        elif tablesource == "wa": #wa csv subsequent lines
             table_dict[table] += line
-
-    return {table: pd.read_csv(BytesIO(table_dict[table]))
+    return {table: pd.read_csv(BytesIO(table_dict[table]), dtype=dtype)
             for table in table_dict}
 
 

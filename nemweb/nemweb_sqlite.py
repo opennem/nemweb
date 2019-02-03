@@ -29,10 +29,17 @@ def table_latest_record(
     db_path = os.path.join(CONFIG['local_settings']['sqlite_dir'], db_name)
     with sqlite3.connect(db_path) as conn:
         result = conn.execute(
-            "SELECT MAX({0}) FROM {1}".format(timestamp_col, table_name)
+            "SELECT MAX(\"{0}\") FROM \"{1}\"".format(timestamp_col, table_name)
         )
         date_str = result.fetchall()[0][0]
-    return datetime.datetime.strptime(date_str, '%Y/%m/%d %H:%M:%S')
+    try:
+        latest_date = datetime.datetime.strptime(date_str, '%Y/%m/%d %H:%M:%S')
+    except ValueError:
+        try:
+            latest_date = datetime.datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
+        except:
+            print("Can't read latest date in db")
+    return latest_date
 
 
 def start_from(
