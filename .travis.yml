@@ -1,0 +1,43 @@
+# Based on astrofrog/example-travis-conda
+
+language: python
+
+matrix: 
+  include:
+
+  - python: "3.7"
+    dist: xenial
+    sudo: true
+
+before_install:
+
+  # Here we just install Miniconda, which you shouldn't have to change.
+  # Use below for python 2 (and miniconda2 in the PATH)
+  # http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
+
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+  - chmod +x miniconda.sh
+  - ./miniconda.sh -b
+  - export PATH=/home/travis/miniconda3/bin:$PATH
+  - conda update --yes conda
+
+install:
+
+  # We just set up a conda environment with the right Python version. This
+  # should not need changing.
+
+  - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
+  - source activate test
+
+  # Below, dependemcies are collected from the requirements.txt file. 
+  # Note: if one requirement fails - the rest will fail - but that ok for now.
+
+  - conda install --yes --file requirements.txt
+
+  # You can also install some dependencies with pip if not available in conda
+
+  # - pip install ...
+
+script:
+
+  - python -m pytest nemweb/tests/
