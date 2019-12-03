@@ -65,5 +65,4 @@ def nemzip_reader(nemzip_object):
             filename = zipfile.namelist()[0]
             nemfile_object = zipfile.extract_stream(filename)
             return nemfile_reader(nemfile_object)
-        else:
-            raise Exception('More than one file in zipfile')
+        raise Exception('More than one file in zipfile')
