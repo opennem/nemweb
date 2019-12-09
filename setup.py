@@ -49,5 +49,5 @@ setup(name='nemweb',
           'requests'],
       cmdclass={'install': PostInstallCommand,
                 'develop': PostDevelopCommand},
-      package_data={'nemweb': 'tests/2018_09_21.pkl'}
+      package_data={'nemweb': os.path.join('tests', '2018_09_21.pkl')}
       )
