@@ -1,3 +1,5 @@
+"""Some pickle utilities."""
+
 import pickle
 
 

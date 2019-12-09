@@ -51,11 +51,7 @@ def start_from(
             table_name, db_name=db_name, timestamp_col=timestamp_col
         )
 
-    except sqlite3.OperationalError as error:
-        # msg = error.args[0].split(":")
-        # if msg[0] == 'no such table':
-        #     date_str = input("{0} doesn't exist. Enter start date [YYYYMMDD]: ".format(msg[1]))
-        #     date = datetime.datetime.strptime(date_str, "%Y%m%d")
+    except sqlite3.OperationalError:
         date = datetime.datetime.strptime(start_date, "%Y%m%d")
 
     return date
