@@ -1,3 +1,5 @@
+"""Setup script"""
+
 import os
 import configparser
 from setuptools import setup
@@ -6,6 +8,7 @@ from setuptools.command.develop import develop
 
 
 def create_config():
+    """Create a configuration file"""
     local_dir = os.path.expanduser("~")
     config = configparser.ConfigParser()
     config.add_section("local_settings")
@@ -38,7 +41,9 @@ class PostDevelopCommand(develop):
 setup(name='nemweb',
       version='0.1',
       description="newweb file handler",
-      long_description="python package to directly download and process AEMO files from http://www.nemweb.com.au/ and inserts tables into a local sqlite database.",
+      long_description="python package to directly download and process AEMO \
+files from http://www.nemweb.com.au/ and inserts tables into a local sqlite \
+database.",
       author='dylan',
       author_email='dylan@opennem.org.au',
       license='MIT',

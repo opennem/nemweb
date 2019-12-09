@@ -1,9 +1,10 @@
 """Module for downloading data different 'CURRENT' nemweb dataset
 (selected data sets from files from http://www.nemweb.com.au/Reports/CURRENT)
 
-Module includes one main superclass for handling generic nemweb current files. A series of
-namedtuples (strored in global constant DATASETS) contains the relevant data for specfic datasets.
-Datasets included from 'CURRENT' index page:
+Module includes one main superclass for handling generic nemweb
+current files. A series of namedtuples (strored in global constant
+DATASETS) contains the relevant data for specfic datasets.  Datasets
+included from 'CURRENT' index page:
 
 - TradingIS_Reports
 - DispatchIS_Reports
@@ -11,6 +12,7 @@ Datasets included from 'CURRENT' index page:
 - Next_Day_Dispatch (DISPATCH_UNIT_SOLUTION)
 - Next_Day_Actual_Gen (METER_DATA_GEN_DUID)
 - ROOFTOP_PV/ACTUAL
+
 """
 
 from io import BytesIO
@@ -48,8 +50,8 @@ class CurrentFileHandler:
             dataset,
             print_progress=False,
             start_date=None,
-            end_date='30001225',  #  must be a better way
-            db_name='nemweb_live.db'  #  maybe this should look at config?
+            end_date='30001225',  # must be a better way
+            db_name='nemweb_live.db'  # maybe this should look at config?
     ):
         """Main method to process nemweb dataset
         - downloads the index page for the dataset
@@ -73,7 +75,8 @@ class CurrentFileHandler:
                                                  dataset.nemfile_pattern))
 
         for match in regex.finditer(page.text):
-            file_datetime = datetime.datetime.strptime(match.group(1), dataset.datetime_format)
+            file_datetime = datetime.datetime.strptime(match.group(1),
+                                                       dataset.datetime_format)
             if end_date > file_datetime > start_date:
                 nemfile = self.download(match.group(0))
                 if print_progress:
@@ -100,7 +103,7 @@ CurrentDataset = namedtuple("NemwebCurrentFile",
                              "tables"])
 
 DATASETS = {
-    "dispatch_scada":CurrentDataset(
+    "dispatch_scada": CurrentDataset(
         dataset_name="Dispatch_SCADA",
         nemfile_pattern='PUBLIC_DISPATCHSCADA_([0-9]{12})_[0-9]{16}.zip',
         datetime_format="%Y%m%d%H%M",
@@ -152,4 +155,5 @@ def update_datasets(datasets, print_progress=False):
     """function that updates a subset of datasets (as a list) contained in DATASETS"""
     filehandler = CurrentFileHandler()
     for dataset_name in datasets:
-        filehandler.update_data(DATASETS[dataset_name], print_progress=print_progress)
+        filehandler.update_data(DATASETS[dataset_name],
+                                print_progress=print_progress)

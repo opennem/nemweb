@@ -57,7 +57,7 @@ def nemzip_reader(nemzip_object):
     Returns a dict containing a pandas dataframe each table in a zipped nemfile.
     The fileobject is needs to be a zipped csv (nemzip), and can be either a file or an
     in stream fileobject.
-    Function checks there is only one file to unzip, unzips to a nemfile (csv) in memory,
+    Function checks there is only one file to unzip, unzips to a nemfile (csv) in memory
     and passes nemfile_object to nemfile reader.
     """
     with ZipFileStreamer(nemzip_object) as zipfile:
